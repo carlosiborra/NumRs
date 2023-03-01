@@ -1,0 +1,8 @@
+# Creating the dynamic library for NumRS
+
+[lib]
+name = "NumRS"
+crate-type = ["cdylib"]  # This is the key to create a dynamic library
+version = "0.0.1"
+edition = "2021"
+[dependencies]
