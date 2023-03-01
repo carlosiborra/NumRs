@@ -1,12 +1,13 @@
-/// main.rs is the entry point of the program in Rust
+use libloading::{Library, Symbol}; // Used to load the library at runtime and get the function pointer to the function
 
-
-#[no_mangle]  // Not to mangle the name of the function, not interfere with the name of the function in the Python code
-pub extern "C" fn sum(arr: *const i32) -> i32 {
-    /// Sum of numbers in an array
-    /// :param a: pointer to the array
-    /// :param n: length of the array
-    /// :return: sum of the array
-    let sum = arr.iter().fold(0, |acc, x| acc + x);
-    sum // return the sum
+fn main() {
+    // Load the library at runtime
+    let lib = unsafe { Library::new("libNumRS.dll").unwrap() };
+    // Get the function pointer to the function (reference)
+    let hello_world: Symbol<unsafe extern "C" fn() -> &'static str> = unsafe { lib.get(b"hello_world").unwrap() };
+    // Call the function
+    let result = unsafe { hello_world() };
+    println!("Result: {}", result);
 }
+
+
